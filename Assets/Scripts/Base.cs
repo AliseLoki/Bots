@@ -8,7 +8,6 @@ public class Base : MonoBehaviour
     [SerializeField] private Spawner _spawner;
     [SerializeField] private List<Bot> _bots;
     [SerializeField] private List<Resource> _resourcesWarehouse;
-    [SerializeField] private GameObject _warehouse;
 
     public event UnityAction<int> ScoreChanged;
 
@@ -28,20 +27,17 @@ public class Base : MonoBehaviour
         {
             var givenResource = bot.GetComponentInChildren<Resource>();
 
-            if (givenResource != null )
+            if (givenResource != null)
             {
                 _spawner.TransferResource(givenResource);
                 _resourcesWarehouse.Add(givenResource);
                 givenResource.gameObject.SetActive(false);
-                givenResource.transform.SetParent(_warehouse.transform);
+                givenResource.transform.SetParent(transform);
                 bot.GetComponent<BotMover>().MoveToStartPoint();
-                bot.SetBusy(false);
                 OnScoreChanged();
             }
-            else
-            {
-                bot.SetBusy(false);
-            }
+
+            bot.SetBusy(false);
         }
     }
 
@@ -55,11 +51,11 @@ public class Base : MonoBehaviour
     {
         foreach (Bot bot in _bots)
         {
-            if (bot.IsBusy == false && resource.IsChosen == false)
+            if (bot.IsBusy == false && resource.IsChosen == false && resource.IsTaken == false)
             {
                 bot.GetComponent<BotMover>().MoveToResource(resource.transform);
                 bot.SetBusy(true);
-                resource.GetComponent<Resource>().SetIsChosen();
+                resource.SetIsChosen();
             }
         }
     }

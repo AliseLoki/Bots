@@ -5,18 +5,12 @@ using UnityEngine;
 public class Bot : MonoBehaviour
 {
     [SerializeField] private bool _isBusy;
-    
-    private BotMover _botMover;
+  
     public bool IsBusy => _isBusy;
  
-    private void Awake()
+    public bool SetBusy(bool isBusy)
     {
-        _botMover = GetComponent<BotMover>();
-    }
-
-    public bool SetBusy(bool busyOrNot)
-    {
-        _isBusy = busyOrNot; 
+        _isBusy = isBusy; 
         return _isBusy;
     }
 }

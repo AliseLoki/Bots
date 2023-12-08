@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -8,11 +9,7 @@ public class Spawner : MonoBehaviour
     [SerializeField] private List<Resource> _resources;
     [SerializeField] private Resource _resource;
 
-    private float _spawnPosX = 10;
-    private float _spawnPosZ = 10;
-    private float _spawnPozY = 0.54f;
-
-    public event UnityAction <Resource> ResourceSpawned;
+    public event UnityAction<Resource> ResourceSpawned;
 
     private void Update()
     {
@@ -36,7 +33,10 @@ public class Spawner : MonoBehaviour
 
     private Vector3 GenerateRandomSpawnPosition()
     {
-        Vector3 spawnPos = new Vector3(Random.Range(-_spawnPosX, _spawnPosX), _spawnPozY, Random.Range(-_spawnPosZ, _spawnPosZ));
-        return spawnPos;
+        float spawnPosX = 10;
+        float spawnPosZ = 10;
+        float spawnPozY = 0.54f;
+
+        return new Vector3(Random.Range(-spawnPosX, spawnPosX), spawnPozY, Random.Range(-spawnPosZ, spawnPosZ));
     }
 }

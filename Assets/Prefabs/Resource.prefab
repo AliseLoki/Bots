@@ -120,6 +120,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isChosen: 0
+  _isTaken: 0
 --- !u!54 &4358161561553896187
 Rigidbody:
   m_ObjectHideFlags: 0
