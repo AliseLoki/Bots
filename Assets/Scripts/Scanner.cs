@@ -1,9 +1,13 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Scanner : MonoBehaviour
 {
-    [SerializeField] private float _maxdistance = 50f;
+    [SerializeField] private float _sphereCastRadius = 2f;
+    [SerializeField] private float _maxDistance = 50f;
     [SerializeField] private LayerMask _layerMask;
+
+    public event UnityAction<Resource> ResourceWasFound;
 
     private void Update()
     {
@@ -12,11 +16,12 @@ public class Scanner : MonoBehaviour
 
     private void CheckArea()
     {
-        if(Physics.SphereCast(transform.position, 50f, transform.forward, out RaycastHit hitInfo,
-            _maxdistance, _layerMask, QueryTriggerInteraction.Ignore))
+        var resources = Physics.SphereCastAll(transform.position, _sphereCastRadius, transform.forward,
+         _maxDistance, _layerMask, QueryTriggerInteraction.Ignore);
+
+        foreach (var resource in resources)
         {
-            print(hitInfo.collider.name);
-        }  
-        
+            ResourceWasFound?.Invoke(resource.collider.GetComponent<Resource>());
+        }
     }
 }

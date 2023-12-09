@@ -5,20 +5,20 @@ using UnityEngine.Events;
 public class Base : MonoBehaviour
 {
     [SerializeField] private int _score;
-    [SerializeField] private Spawner _spawner;
     [SerializeField] private List<Bot> _bots;
     [SerializeField] private List<Resource> _resourcesWarehouse;
+    [SerializeField] private Scanner _scanner;
 
     public event UnityAction<int> ScoreChanged;
 
     private void OnEnable()
     {
-        _spawner.ResourceSpawned += SendBot;
+        _scanner.ResourceWasFound += SendBot;
     }
 
     private void OnDisable()
     {
-        _spawner.ResourceSpawned -= SendBot;
+        _scanner.ResourceWasFound -= SendBot;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -29,7 +29,6 @@ public class Base : MonoBehaviour
 
             if (givenResource != null)
             {
-                _spawner.TransferResource(givenResource);
                 _resourcesWarehouse.Add(givenResource);
                 givenResource.gameObject.SetActive(false);
                 givenResource.transform.SetParent(transform);
@@ -51,7 +50,7 @@ public class Base : MonoBehaviour
     {
         foreach (Bot bot in _bots)
         {
-            if (bot.IsBusy == false && resource.IsChosen == false && resource.IsTaken == false)
+            if (bot.IsBusy == false && resource.IsChosen == false )
             {
                 bot.GetComponent<BotMover>().MoveToResource(resource.transform);
                 bot.SetBusy(true);

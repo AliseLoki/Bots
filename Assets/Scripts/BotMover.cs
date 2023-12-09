@@ -4,15 +4,14 @@ using UnityEngine;
 public class BotMover : MonoBehaviour
 {
     [SerializeField] private float _speed = 5;
+    [SerializeField] private Base _base;
 
-    private Base _base;
     private Transform _startPoint;
     private Coroutine _coroutine;
 
     private void Awake()
     {
         _startPoint = transform;
-        _base = GetComponentInParent<Base>();
     }
 
     public void MoveToStartPoint()
