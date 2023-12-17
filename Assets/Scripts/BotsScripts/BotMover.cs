@@ -4,21 +4,27 @@ using UnityEngine;
 public class BotMover : MonoBehaviour
 {
     [SerializeField] private float _speed = 5;
-    [SerializeField] private Base _base;
 
+    private Base _base;
     private Transform _startPoint;
     private Coroutine _coroutine;
 
     private void Awake()
     {
         _startPoint = transform;
+        _base = GetComponentInParent<Base>();
+    }
+
+    public void SetBase(Base newBase)
+    {
+        _base = newBase;
     }
 
     public void MoveToStartPoint()
     {
-        if( _coroutine != null )
+        if (_coroutine != null)
         {
-            StopCoroutine( _coroutine );
+            StopCoroutine(_coroutine);
         }
 
         _coroutine = StartCoroutine(Moving(_startPoint));
@@ -26,7 +32,7 @@ public class BotMover : MonoBehaviour
 
     public void ReturnToBase()
     {
-        if(_coroutine != null)
+        if (_coroutine != null)
         {
             StopCoroutine(_coroutine);
         }
@@ -34,15 +40,25 @@ public class BotMover : MonoBehaviour
         _coroutine = StartCoroutine(Moving(_base.transform));
     }
 
-    public void MoveToResource(Transform target)
+    public void MoveToTarget(Transform target)
     {
         if (_coroutine != null)
         {
             StopCoroutine(_coroutine);
         }
 
-        _coroutine = StartCoroutine(Moving(target));
-        
+        if (target != null)
+        {
+            _coroutine = StartCoroutine(Moving(target));
+        }
+    }
+
+    public void Stop()
+    {
+        if (_coroutine != null)
+        {
+            StopCoroutine(_coroutine);
+        }
     }
 
     private void Move(Transform target)
