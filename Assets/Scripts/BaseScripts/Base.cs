@@ -30,23 +30,9 @@ public class Base : MonoBehaviour
         _scanner.ResourceWasFound -= SendBot;
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void AddResource(Resource resource)
     {
-        if (other.TryGetComponent(out Bot bot))
-        {
-            var givenResource = bot.GetComponentInChildren<Resource>();
-
-            if (givenResource != null)
-            {
-                _resourcesWarehouse.Add(givenResource);
-                givenResource.gameObject.SetActive(false);
-                givenResource.transform.SetParent(transform);
-                bot.Mover.MoveToStartPoint();
-                OnScoreChanged();
-            }
-
-            bot.SetBusy(false);
-        }
+        _resourcesWarehouse.Add(resource);
     }
 
     public void AddBot(Bot bot)
@@ -66,7 +52,7 @@ public class Base : MonoBehaviour
         ScoreChanged?.Invoke(_score);
     }
 
-    private void OnScoreChanged()
+    public void OnScoreChanged()
     {
         _score++;
         ScoreChanged?.Invoke(_score);

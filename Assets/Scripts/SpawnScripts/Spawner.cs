@@ -8,6 +8,7 @@ public class Spawner : MonoBehaviour
     [SerializeField] private float _spawnDelay = 1f;
     [SerializeField] private Resource _resource;
     [SerializeField] private Base _baseTemplate;
+    [SerializeField] private Bot _botTemplate;
 
     private void Start()
     {
